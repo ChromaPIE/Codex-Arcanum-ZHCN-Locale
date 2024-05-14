@@ -47,7 +47,7 @@ function CodexArcanum.INIT.CA_Jokers()
         }
     }
 
-    local bottled_buffoon = SMODS.Joker:new("Bottled Buffoon", "bottled_buffoon", {extra = {every = 5, remaining = "5 remaining"}}, { x = 1, y = 0 }, bottled_buffoon_def, 1, 5, true, false, true, true, "", "ca_joker_atlas")
+    local bottled_buffoon = SMODS.Joker:new("Bottled Buffoon", "bottled_buffoon", {extra = {every = 3, remaining = "3 remaining"}}, { x = 1, y = 0 }, bottled_buffoon_def, 1, 5, true, false, true, true, "", "ca_joker_atlas")
     bottled_buffoon:register()
     
     function SMODS.Jokers.j_bottled_buffoon.loc_def(card)
@@ -96,16 +96,18 @@ function CodexArcanum.INIT.CA_Jokers()
     mutated_joker:register()
 
     function SMODS.Jokers.j_mutated_joker.loc_def(card)
-        return { card.ability.extra.chips, card.ability.extra.total_chips }
+        return { card.ability.extra.chips, G.alchemical_tally * card.ability.extra.chips }
     end
 
     function SMODS.Jokers.j_mutated_joker.calculate(card, context)
         if context.using_consumeable and not context.consumeable.config.in_booster and context.consumeable.ability.set == 'Alchemical' then
-            local alchemicals_used = 1
+            
+            G.alchemical_tally = 1
             for k, v in pairs(G.GAME.consumeable_usage) do
-                if v.set == 'Alchemical' then alchemicals_used = alchemicals_used + 1 end
+                if v.set == 'Alchemical' then G.alchemical_tally = G.alchemical_tally + 1 end
             end
-            card.ability.extra.total_chips = alchemicals_used * card.ability.extra.chips
+
+            card.ability.extra.total_chips = G.alchemical_tally * card.ability.extra.chips
 
             G.E_MANAGER:add_event(Event({
                 func = function() card_eval_status_text(card, 'extra', nil, nil, nil, {message = localize{type='variable',key='a_chips',vars={card.ability.extra.chips}}}); return true
@@ -132,7 +134,7 @@ function CodexArcanum.INIT.CA_Jokers()
         }
     }
 
-    local chain_reaction = SMODS.Joker:new("Chain Reaction", "chain_reaction", { extra = {used = false} }, { x = 2, y = 0 }, chain_reaction_def, 2, 5, true, false, true, true, "", "ca_joker_atlas")
+    local chain_reaction = SMODS.Joker:new("Chain Reaction", "chain_reaction", { extra = {used = false} }, { x = 2, y = 0 }, chain_reaction_def, 2, 5, false, false, true, true, "", "ca_joker_atlas")
     chain_reaction:register()
 
     function SMODS.Jokers.j_chain_reaction.calculate(card, context)

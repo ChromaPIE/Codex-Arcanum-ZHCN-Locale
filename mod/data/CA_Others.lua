@@ -1,6 +1,7 @@
 function CodexArcanum.INIT.CA_Others()
     SMODS.Sprite:new("ca_others_atlas", CodexArcanum.mod.path, "ca_others_atlas.png", 71, 95, "asset_atli"):register();
-    
+    SMODS.Sprite:new("ca_decks_atlas", CodexArcanum.mod.path, "ca_decks_atlas.png", 71, 95, "asset_atli"):register();
+
     -- Mortar and Pestle
     local v_mortar_and_pestle_def = {
         name = "Mortar and Pestle",
@@ -68,24 +69,39 @@ function CodexArcanum.INIT.CA_Others()
         name = "Philosopher's Deck",
         text = {
         "Start run with the",
-        "{C:tarot,T:v_mortar_and_pestle}Mortar and Pestle{} voucher",
-        "and {C:attention}2{} {C:alchemical}Alchemical{} cards"
+        "{C:tarot,T:v_alchemical_merchant}Alchemical Merchant{} voucher",
+        "and a copy of {C:tarot,T:c_seeker}The Seeker{}"
         },
     }
     
-    local philosopher_deck = SMODS.Deck:new("Philosopher's Deck", "philosopher", {voucher = 'v_mortar_and_pestle', consumables = {'c_alchemy_ignis', 'c_alchemy_terra'}, atlas = "b_philosopher"}, {x = 0, y = 0}, philosopher_deck_def)
-    SMODS.Sprite:new("b_philosopher", CodexArcanum.mod.path, "b_philosopher.png", 71, 95, "asset_atli"):register();
+    local philosopher_deck = SMODS.Deck:new("Philosopher's Deck", "philosopher", {vouchers = { 'v_alchemical_merchant' }, consumables = { 'c_seeker' }, atlas = "ca_decks_atlas"}, {x = 0, y = 0}, philosopher_deck_def)
     philosopher_deck:register()
 
 
 
+    -- Herbalist's Deck
+    local herbalist_deck_def = {
+        name = "Herbalist's Deck",
+        text = {
+        "Start run with the",
+        "{C:tarot,T:v_mortar_and_pestle}Mortar and Pestle{} voucher.",
+        "Gain an {C:alchemical}Alchemical{} card before",
+        "each boss blind"
+        },
+    }
+    
+    local herbalist_deck = SMODS.Deck:new("Herbalist's Deck", "herbalist", {vouchers = { 'v_mortar_and_pestle' }, atlas = "ca_decks_atlas"}, {x = 1, y = 0}, herbalist_deck_def)
+    herbalist_deck:register()
+
+
+
     local tag_elemental_def = {
-            name = "Elemental Tag",
-            text = {
+        name = "Elemental Tag",
+        text = {
         "Gives a free",
         "{C:alchemical}Mega Alchemy Pack"
-    }
         }
+    }
         
         local tag_elemental = SMODS.Tag:new("Elemental Tag", "elemental", {type = 'new_blind_choice'}, { x = 0, y = 0 }, tag_elemental_def)
         SMODS.Sprite:new("tag_elemental", CodexArcanum.mod.path, "tag_elemental.png", 34, 34, "asset_atli"):register();

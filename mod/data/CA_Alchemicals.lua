@@ -89,7 +89,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
             G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
             G.HUD_blind:recalculate() 
             chips_UI:juice_up()
-    
+            
             if not silent then play_sound('chips2') end
         return true end }))
     end
@@ -523,10 +523,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     function CodexArcanum.Alchemicals.c_alchemy_magnet.use(card, area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-            local cur_rank = G.hand.highlighted[1].base.original_value
+            local cur_rank = G.hand.highlighted[1].base.id
             local count = 2
             for _, v in pairs(G.deck.cards) do
-                if v.base.original_value == cur_rank and count > 0 then
+                if v.base.id == cur_rank and count > 0 then
                     delay(0.05)
                     draw_card(G.deck, G.hand, 100, 'up', true, v)
                     count = count - 1
@@ -618,8 +618,8 @@ function CodexArcanum.INIT.CA_Alchemicals()
                 delay(0.05)
                 v:juice_up(1, 0.5)
                 v:set_debuff(false)
-                v.ability.extra = v.ability.extra or {}
-                v.ability.extra.oil = true
+                v.config = v.config or {}
+                v.config.oil = true
                 if v.facing == 'back' then
                     v:flip()
                 end
@@ -653,6 +653,9 @@ function CodexArcanum.INIT.CA_Alchemicals()
                     table.insert(G.deck.config.acid, v)
                     v:start_dissolve({HEX("E3FF37")}, nil, 1.6)
                 end 
+            end
+            for j=1, #G.jokers.cards do
+                eval_card(G.jokers.cards[j], {cardarea = G.jokers, remove_playing_cards = true, removed = G.deck.config.acid})
             end
         return true end }))
     end
@@ -724,15 +727,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
                         table.insert(eligible_cards, v)
                     end
                 end
-                local conv_card = pseudorandom_element(eligible_cards, pseudoseed(card.ability.name))
-                
-                delay(0.05)
-                if not (G.hand.highlighted[1].edition) then conv_card:juice_up(1, 0.5) end
-                conv_card:set_ability(G.hand.highlighted[1].config.center)
-                conv_card:set_seal(G.hand.highlighted[1]:get_seal(true))
-                conv_card:set_edition(G.hand.highlighted[1].edition)
 
-                table.insert(G.deck.config.uranium, conv_card.unique_val)
+                if #eligible_cards > 0 then
+                    local conv_card = pseudorandom_element(eligible_cards, pseudoseed(card.ability.name))
+
+                    delay(0.05)
+                    if not (G.hand.highlighted[1].edition) then conv_card:juice_up(1, 0.5) end
+                    conv_card:set_ability(G.hand.highlighted[1].config.center)
+                    conv_card:set_seal(G.hand.highlighted[1]:get_seal(true))
+                    conv_card:set_edition(G.hand.highlighted[1].edition)
+
+                    table.insert(G.deck.config.uranium, conv_card.unique_val)
+                end
+                
             end
         return true end }))
     end
