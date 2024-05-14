@@ -4,9 +4,9 @@ function CodexArcanum.INIT.CA_Others()
 
     -- Mortar and Pestle
     local v_mortar_and_pestle_def = {
-        name = "Mortar and Pestle",
+        name = "杵和臼",
         text = {
-            "{C:attention}+1{} consumable slot",
+            "{C:attention}+1{}消耗牌槽位"
         }
     }
 
@@ -15,10 +15,10 @@ function CodexArcanum.INIT.CA_Others()
 
         -- Cauldron
     local v_cauldron_def = {
-        name = "Cauldron",
+        name = "坩埚",
         text = {
-            "Some {C:alchemical}Alchemical{} cards",
-            "may become Negative"
+            "一些{C:alchemical}炼金牌",
+            "可能成为{C:dark_edition}负片"
         }
     }
 
@@ -27,10 +27,11 @@ function CodexArcanum.INIT.CA_Others()
 
     -- Alchemical Merchant
     local v_alchemical_merchant_def = {
-        name = "Alchemical Merchant",
+        name = "炼金牌商人",
         text = {
-            "{C:alchemical}Alchemical{} cards appear",
-            "in the shop"
+            "商店中有",
+            "{C:alchemical}炼金牌",
+            "可供选购"
         }
     }
 
@@ -45,11 +46,10 @@ function CodexArcanum.INIT.CA_Others()
 
     -- Alchemical Tycoon
     local v_alchemical_tycoon_def = {
-        name = "Alchemical Tycoon",
+        name = "炼金大亨",
         text = {
-            "{C:alchemical}Alchemical{} cards appear",
-            "{C:attention}2X{} more frequently",
-            "in the shop"
+            "商店中{C:alchemical}炼金牌",
+            "出现频率{C:attention}X2"
         }
     }
 
@@ -66,11 +66,11 @@ function CodexArcanum.INIT.CA_Others()
 
     -- Philosopher's Deck
     local philosopher_deck_def = {
-        name = "Philosopher's Deck",
+        name = "哲学家的牌组",
         text = {
-        "Start run with the",
-        "{C:tarot,T:v_alchemical_merchant}Alchemical Merchant{} voucher",
-        "and a copy of {C:tarot,T:c_seeker}The Seeker{}"
+        "开局时即拥有",
+        "{C:tarot,T:v_alchemical_merchant}炼金牌商人{}优惠券",
+        "和一张{C:tarot,T:c_seeker}求索者"
         },
     }
     
@@ -81,12 +81,12 @@ function CodexArcanum.INIT.CA_Others()
 
     -- Herbalist's Deck
     local herbalist_deck_def = {
-        name = "Herbalist's Deck",
+        name = "草药医生的牌组",
         text = {
-        "Start run with the",
-        "{C:tarot,T:v_mortar_and_pestle}Mortar and Pestle{} voucher.",
-        "Gain an {C:alchemical}Alchemical{} card before",
-        "each boss blind"
+        "开局时即拥有",
+        "{C:tarot,T:v_mortar_and_pestle}杵和臼{}优惠券",
+        "每个Boss盲注开局时",
+        "获得一张{C:alchemical}炼金牌"
         },
     }
     
@@ -96,10 +96,10 @@ function CodexArcanum.INIT.CA_Others()
 
 
     local tag_elemental_def = {
-        name = "Elemental Tag",
+        name = "元素标签",
         text = {
-        "Gives a free",
-        "{C:alchemical}Mega Alchemy Pack"
+        "获得一个免费的",
+        "{C:alchemical}超级炼金包"
         }
     }
         
@@ -130,11 +130,11 @@ function CodexArcanum.INIT.CA_Others()
 
 
     local tarot_seeker_def = {
-        name = "The Seeker",
+        name = "求索者",
         text = {
-            "Creates up to {C:attention}#1#",
-            "random {C:alchemical}Alchemical{} cards",
-            "{C:inactive}(Must have room)"
+            "生成最多{C:attention}#1#张",
+            "随机{C:alchemical}炼金牌{}",
+            "{C:inactive}（必须有空间）"
         }
     }
 

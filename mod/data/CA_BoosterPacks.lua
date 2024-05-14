@@ -1,30 +1,30 @@
 function CodexArcanum.INIT.CA_BoosterPacks()
-    G.localization.misc.dictionary["k_alchemy_pack"] = "Alchemy Pack"
+    G.localization.misc.dictionary["k_alchemy_pack"] = "炼金包"
 
     G.localization.descriptions["Other"]["p_alchemy_normal"] = {
-      name = "Alchemy Pack",
+      name = "炼金包",
       text = {
-          "Choose {C:attention}1{} of up to",
-          "{C:attention}2{C:alchemical} Alchemical{} cards to",
-          "add to your consumeables"
+          "从最多{C:attention}2{}张{C:alchemical}炼金牌{}中",
+          "选择{C:attention}1{}张",
+          "添加至消耗牌槽位"
       }
     }
   
     G.localization.descriptions["Other"]["p_alchemy_jumbo"] = {
-      name = "Alchemy Pack",
+      name = "巨型炼金包",
       text = {
-          "Choose {C:attention}1{} of up to",
-          "{C:attention}4{C:alchemical} Alchemical{} cards to",
-          "add to your consumeables"
+          "从最多{C:attention}4{}张{C:alchemical}炼金牌{}中",
+          "选择{C:attention}1{}张",
+          "添加至消耗牌槽位"
       }
     }
   
     G.localization.descriptions["Other"]["p_alchemy_mega"] = {
-      name = "Alchemy Pack",
+      name = "超级炼金包",
       text = {
-          "Choose {C:attention}2{} of up to",
-          "{C:attention}4{C:alchemical} Alchemical{} cards to",
-          "add to your consumeables"
+          "从最多{C:attention}4{}张{C:alchemical}炼金牌{}中",
+          "选择{C:attention}2{}张",
+          "添加至消耗牌槽位"
       }
     }
   

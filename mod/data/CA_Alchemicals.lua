@@ -5,29 +5,29 @@ function CodexArcanum.INIT.CA_Alchemicals()
     SMODS.Sprite:new("alchemical_atlas", CodexArcanum.mod.path, "alchemical_atlas.png", 71, 95, "asset_atli"):register();
 
     G.localization.descriptions["Other"]["undiscovered_alchemical"] = {
-        name = "Not Discovered",
+        name = "未发现",
         text = {
-            "Purchase or use",
-            "this card in an",
-            "unseeded run to",
-            "learn what it does"
+            "在非预设局",
+            "中购买或",
+            "使用此牌",
+            "以了解其效果"
         }
     }
 
 
     G.localization.descriptions["Other"]["alchemical_card"] = {
-        name = "Alchemical",
+        name = "炼金",
         text = {
-            "Can only be used",
-            "during a {C:attention}blind{}"
+            "仅可在盲注内使用"
         }
     }
     
 
     local alchemy_ignis_def = {
-        name = "Ignis",
+        name = "火",
         text = {
-            "Gain {C:attention}+1{} discard"
+            "在本盲注内",
+            "弃牌次数{C:attention}+1{}"
         }
     }
 
@@ -46,9 +46,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_aqua_def = {
-        name = "Aqua",
+        name = "水",
         text = {
-            "Gain {C:attention}+1{} hand"
+            "在本盲注内",
+            "出牌次数{C:attention}+1"
         }
     }
 
@@ -67,9 +68,9 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_terra_def = {
-        name = "Terra",
+        name = "地",
         text = {
-            "Reduce blind by {C:attention}15%{}"
+            "削减盲注的最低分数要求至{C:attention}85%"
         }
     }
 
@@ -96,9 +97,9 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_aero_def = {
-        name = "Aero",
+        name = "气",
         text = {
-            "Draw {C:attention}4{} cards"
+            "抽{C:attention}4{}张牌"
         }
     }
 
@@ -117,10 +118,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_quicksilver_def = {
-        name = "Quicksilver",
+        name = "汞",
         text = {
-            "{C:attention}+2{} hand size",
-            "for this blind"
+            "本盲注内",
+            "{C:attention}+2{}手牌上限"
         }
     }
 
@@ -141,9 +142,9 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_salt_def = {
-        name = "Salt",
+        name = "盐",
         text = {
-            "Gain {C:attention}1{} tag"
+            "获得{C:attention}1{}个标签"
         }
     }
 
@@ -173,11 +174,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
     
 
     local alchemy_sulfur_def = {
-        name = "Sulfur",
+        name = "硫",
         text = {
-            "Reduce hands to {C:attention}1",
-            "Gain {C:attention}$4{} for each",
-            "hand removed"
+            "出牌次数减为{C:attention}1",
+            "减去的每次出牌给予{C:attention}$4{}"
         }
     }
 
@@ -198,10 +198,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_phosphorus_def = {
-        name = "Phosphorus",
+        name = "磷",
         text = {
-            "Return {C:attention}all{} discarded",
-            "cards to deck"
+            "将{C:attention}所有{}已丢弃的卡牌",
+            "重新加入牌组"
         }
     }
 
@@ -220,12 +220,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_bismuth_def = {
-        name = "Bismuth",
+        name = "铋",
         text = {
-        "Converts up to",
-        "{C:attention}2{} selected cards",
-        "to {C:dark_edition}Polychrome",
-        "for one blind"
+            "在本盲注内",
+            "将至多{C:attention}2{}张选定卡牌",
+            "临时转换为{C:attention}多彩"
         }
     }
 
@@ -248,12 +247,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_cobalt_def = {
-        name = "Cobalt",
+        name = "钴",
         text = {
-        "Upgrade currently",
-        "selected {C:legendary,E:1}poker hand",
-        "by {C:attention}2{} levels", 
-        "{C:inactive}(hand: #1#)"
+        "将当前选定的{C:legendary,E:1}牌型",
+        "提升{C:attention}2{}个等级", 
+        "{C:inactive}（当前牌型：#1#）"
         }
     }
 
@@ -275,10 +273,9 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_arsenic_def = {
-        name = "Arsenic",
+        name = "砷",
         text = {
-        "{C:attention}Swap{} your hands",
-        "and your discards"
+        "用弃牌堆{C:attention}换掉{}手牌"
         }
     }
 
@@ -302,11 +299,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_antimony_def = {
-        name = "Antimony",
+        name = "锑",
         text = {
-        "Create a {C:dark_edition}Negative{} {C:eternal}eternal{}",
-        "{C:attention}copy{} of a random",
-        "joker for one blind"
+        "在本盲注内",
+        "为随机一张小丑牌生成",
+        "带有{C:dark_edition}负片{}和{C:eternal}永恒{}的临时{C:attention}复制"
         }
     }
 
@@ -335,11 +332,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_soap_def = {
-        name = "Soap",
+        name = "皂",
         text = {
-            "Replace up to {C:attention}3{}",
-            "selected cards with cards",
-            "from your deck"
+            "将至多{C:attention}3{}张选定的卡牌",
+            "替换为牌组中的牌"
         }
     }
 
@@ -361,12 +357,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_manganese_def = {
-        name = "Manganese",
+        name = "锰",
         text = {
-            "Enhances up to",
-            "{C:attention}4{} selected cards",
-            "into {C:attention}Steel Cards",
-            "for one blind"
+            "在本盲注内",
+            "将至多{C:attention}4{}张选定卡牌",
+            "临时增强为{C:attention}钢铁牌"
         }
     }
 
@@ -391,11 +386,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_wax_def = {
-        name = "Wax",
+        name = "蜡",
         text = {
-            "Create {C:attention}2{} temporary",
-            "copies of selected card",
-            "for one blind"
+            "在本盲注内",
+            "为选定卡牌生成",
+            "{C:attention}2{}张临时复制"
         }
     }
 
@@ -425,12 +420,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     
     local alchemy_borax_def = {
-        name = "Borax",
+        name = "硼",
         text = {
-            "Converts up to",
-            "{C:attention}4{} selected cards",
-            "into most common {C:attention}suit",
-            "for one blind"
+            "在本盲注内",
+            "将至多{C:attention}4{}张选定卡牌",
+            "临时转换为数量最多的{C:attention}花色"
         }
     }
 
@@ -476,12 +470,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
             
     local alchemy_glass_def = {
-        name = "Glass",
+        name = "玻",
         text = {
-            "Enhances up to",
-            "{C:attention}4{} selected cards",
-            "into {C:attention}Glass Cards",
-            "for one blind"
+            "在本盲注内",
+            "将至多{C:attention}4{}张选定卡牌",
+            "临时增强为{C:attention}玻璃牌"
         }
     }
 
@@ -506,11 +499,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_magnet_def = {
-        name = "Magnet",
+        name = "磁",
         text = {
-            "Draw {C:attention}2{} cards",
-            "of the same rank",
-            "as the selected card"
+            "抽{C:attention}2{}张与选定卡牌",
+            "点数相同的牌"
         }
     }
 
@@ -537,12 +529,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_gold_def = {
-        name = "Gold",
+        name = "金",
         text = {
-            "Enhances up to",
-            "{C:attention}4{} selected cards",
-            "into {C:attention}Gold Cards",
-            "for one blind"
+            "在本盲注内",
+            "将至多{C:attention}4{}张选定卡牌",
+            "临时增强为{C:attention}黄金牌"
         }
     }
 
@@ -567,12 +558,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_silver_def = {
-        name = "Silver",
+        name = "银",
         text = {
-            "Enhances up to",
-            "{C:attention}4{} selected cards",
-            "into {C:attention}Lucky Cards",
-            "for one blind"
+            "在本盲注内",
+            "将至多{C:attention}4{}张选定卡牌",
+            "临时增强为{C:attention}幸运牌"
         }
     }
 
@@ -597,11 +587,10 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_oil_def = {
-        name = "Oil",
+        name = "油",
         text = {
-            "Removes {C:attention}debuffs{}",
-            "of all cards",
-            "in hand"
+            "移除手中所有",
+            "卡牌的{C:attention}削弱{}效果"
         }
     }
 
@@ -629,12 +618,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_acid_def = {
-        name = "Acid",
+        name = "酸",
         text = {
-            "{C:attention}Destroy{} all cards of the ",
-            "same rank as selected",
-            "card. All cards {C:attention}returned",
-            "after one blind"
+            "将与选定卡牌点数",
+            "相同的牌全部{C:attention}摧毁{}",
+            "本盲注结束后复原"
         }
     }
 
@@ -662,12 +650,12 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_brimstone_def = {
-        name = "Brimstone",
+        name = "磺",
         text = {
-            "{C:attention}+2{} hands, {C:attention}+2{} discards",
-            "Debuff the left most",
-            "non-debuffed joker",
-            "for one blind"
+            "在本盲注内",
+            "出牌和弃牌次数各{C:attention}+2",
+            "并削弱最左边一张",
+            "未被削弱的小丑牌"
         }
     }
 
@@ -695,17 +683,15 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
 
     local alchemy_uranium_def = {
-        name = "Uranium",
+        name = "铀",
         text = {
-            "Copy the selected card's",
-            "{C:attention}enhancement{}, {C:attention}seal{}, and {C:attention}edition",
-            "to {C:attention}3{} unenhanced cards",
-            "for one blind"
+            "在本盲注内",
+            "将选定卡牌的{C:attention}增强{}、{C:attention}蜡封{}和{C:attention}版本",
+            "临时复制至{C:attention}3{}张无增强的卡牌"
         },
         unlock = {
-            "Use {C:attention}5",
-            "{E:1,C:alchemical}Alchemical{} cards in",
-            "the same run"
+            "在同一赛局内",
+            "使用{C:attention}5{}张{E:1,C:alchemical}炼金牌"
         }
     }
 

@@ -4,11 +4,11 @@ function CodexArcanum.INIT.CA_Jokers()
     
     -- Studious Joker
     local studious_joker_def = {
-        name = "Studious Joker",
+        name = "好学小丑",
         text = {
-            "{C:mult}+#1#{} Mult. Sell this",
-            "joker to get one",
-            "{C:alchemical} Alchemical{} card"
+            "{C:mult}+#1#{}倍率",
+            "售出此牌即可",
+            "获得一张{C:alchemical}炼金卡"
         }
     }
 
@@ -39,10 +39,10 @@ function CodexArcanum.INIT.CA_Jokers()
 
     -- Bottled Buffoon
     local bottled_buffoon_def = {
-        name = "Bottled Buffoon",
+        name = "瓶中丑角",
         text = {
-            "Create an {C:alchemical}Alchemical{} card",
-            "every {C:attention}#1#{} hands played",
+            "每出牌{C:attention}#1#{}次",
+            "生成一张{C:alchemical}炼金牌{}",
             "{C:inactive}#2#"
         }
     }
@@ -80,15 +80,14 @@ function CodexArcanum.INIT.CA_Jokers()
         end
     end
 
-        
+
     -- Mutated Joker
     local mutated_joker_def = {
-        name = "Mutated Joker",
+        name = "变异小丑",
         text = {
-            "{C:chips}+#1#{} Chips for each",
-            "unique {C:alchemical}Alchemical{} card",
-            "used this run",
-            "{C:inactive}(Currently {C:chips}+#2#{C:inactive} Chips)"
+            "本赛局内每使用过一张{C:alchemical}炼金牌",
+            "这张小丑牌获得{C:chips}+#1#{}筹码",
+            "{C:inactive}（当前为{C:chips}+#2#{C:inactive}筹码）"
         }
     }
 
@@ -126,11 +125,11 @@ function CodexArcanum.INIT.CA_Jokers()
 
     -- Chain Reaction
     local chain_reaction_def = {
-        name = "Chain Reaction",
+        name = "链式反应",
         text = {
-            "Create a {C:dark_edition}Negative{} {C:attention}Copy{}",
-            "of the first {C:alchemical}Alchemical{} ",
-            "card used each blind"
+            "{C:attention}复制{}每个盲注内",
+            "使用的第一张{C:alchemical}炼金牌",
+            "并为其添加{C:dark_edition}负片{}效果"
         }
     }
 
@@ -159,11 +158,11 @@ function CodexArcanum.INIT.CA_Jokers()
 
     -- Essence of Comedy
     local essence_of_comedy_def = {
-        name = "Essence of Comedy",
+        name = "笑果精华",
         text = {
-        "Gains {X:mult,C:white} X#1# {} Mult",
-        "per {C:alchemical}Alchemical{} card used",
-        "{C:inactive}(Currently {X:mult,C:white} X#2# {C:inactive} Mult)"
+        "每使用一张{C:alchemical}炼金牌",
+        "这张小丑牌获得{X:mult,C:white} X#1# {}倍率",
+        "{C:inactive}（当前为{X:mult,C:white} X#2# {C:inactive}倍率）"
         }
     }
 
@@ -187,12 +186,12 @@ function CodexArcanum.INIT.CA_Jokers()
     
     -- Shock Humor
     local shock_humor_def = {
-        name = "Shock Humor",
+        name = "逆天恶趣味",
         text = {
-            "{C:green}#1# in #2#{} chance to",
-            "get an {C:alchemical}Alchemical{} card",
-            "when you discard a {C:attention}Gold{},",
-            "{C:attention}Steel{} or {C:attention}Stone{} card"
+            "弃掉一张{C:attention}黄金{}、",
+            "{C:attention}钢铁{}或{C:attention}石头{}牌时",
+            "有{C:green}#1#/#2#{}的几率",
+            "获得一张{C:alchemical}炼金牌{}"
         }
     }
 
@@ -218,13 +217,13 @@ function CodexArcanum.INIT.CA_Jokers()
 
     -- Breaking Bozo
     local breaking_bozo_def = {
-        name = "Breaking Bozo",
+        name = "绝命嘟师",
         text = {
-            "After you use an {C:alchemical}Alchemical{}",
-            "card, do one at random: ",
-            "- Reduce blind by {C:attention}10%{}",
-            "- Draw {C:attention}4{} cards",
-            "- Earn {C:attention}$10{}"
+            "使用{C:alchemical}炼金牌{}后",
+            "随机触发以下任一效果：",
+            "- 削减盲注的最低分数要求至{C:attention}90%",
+            "- 抽{C:attention}4{}张牌",
+            "- 获得{C:attention}$10"
         }
     }
 

@@ -563,8 +563,8 @@ function Game:update_round_eval(dt)
   end
   
   for k, card in ipairs(G.playing_cards) do
-    if card.ability.extra and card.ability.extra.oil then
-      card.ability.extra.oil = nil
+    if card.config.oil then
+      card.config.oil = nil
     end
   end
 
@@ -753,18 +753,6 @@ G.FUNCS.use_card = function(e, mute, nosave)
   end
 end
 
-local calculate_jokerref = Card.calculate_joker;
-function Card:calculate_joker(context)
-
-  local val = calculate_jokerref(self, context)
-
-  if context.scoring_name then
-    G.GAME.last_played_hand = context.scoring_name
-  end
-
-  return val
-end
-
 local set_abilityref = Card.set_ability;
 function Card:set_ability(center, initial, delay_sprites)
   set_abilityref(self, center, initial, delay_sprites)
@@ -912,7 +900,20 @@ function Game:update(dt)
     G.GAME.blind:change_colour(G.C.RAINBOW_EDITION)
     ease_background_colour{new_colour = G.C.RAINBOW_EDITION, contrast = 1}
   end
-  
+
+
+  if G.GAME and G.GAME.blind and G.GAME.chips - G.GAME.blind.chips >= 0 then
+    if G.STATE == G.STATES.SELECTING_HAND then
+      G.STATE = G.STATES.HAND_PLAYED
+      G.STATE_COMPLETE = true
+      end_round()
+    end
+  end
+
+  G.alchemical_tally = 1
+  for k, v in pairs(G.GAME.consumeable_usage) do
+    if v.set == 'Alchemical' then G.alchemical_tally = G.alchemical_tally + 1 end
+  end
 end
 
 
@@ -1255,8 +1256,62 @@ end
 
 local blind_debuff_cardref = Blind.debuff_card
 function Blind:debuff_card(card, from_blind)
-  if card.ability and card.ability.extra and type(card.ability.extra) == "table" and card.ability.extra.oil then return end
+  if card.config.oil then return end
   blind_debuff_cardref(self, card, from_blind)
+end
+
+local usage_tabsref = G.UIDEF.usage_tabs
+function G.UIDEF.usage_tabs(args)
+  local retval = usage_tabsref(args)
+
+  args = args or {}
+  args.colour = args.colour or G.C.RED
+  args.tab_alignment = args.tab_alignment or 'cm'
+  args.opt_callback = args.opt_callback or nil
+  args.scale = args.scale or 1
+  args.tab_w = args.tab_w or 0
+  args.tab_h = args.tab_h or 0
+  args.text_scale = (args.text_scale or 0.5)
+
+  local v = {
+    label = localize('b_stat_alchemicals'),
+    tab_definition_function = create_UIBox_usage,
+    tab_definition_function_args = {'consumeable_usage', 'Alchemical'},
+  }
+
+  local new_tab = UIBox_button({id = 'tab_but_'..(v.label or ''), ref_table = v, button = 'change_tab', label = {v.label}, minh = 0.8*args.scale, minw = 2.5*args.scale, col = true, choice = true, scale = args.text_scale, chosen = v.chosen, func = v.func, focus_args = {type = 'none'}})
+
+  table.insert(retval.nodes[1].nodes[1].nodes[1].nodes[1].nodes[1].nodes[2].nodes, 6, new_tab)
+
+  return retval
+end
+
+local new_roundref = new_round
+function new_round()
+  new_roundref()
+  delay(0.2)
+  G.E_MANAGER:add_event(Event({
+    trigger = 'immediate',
+    func = function()
+      if G.GAME.blind:get_type() == 'Boss' then
+        G.GAME.selected_back:trigger_effect({context = 'start_boss'})
+      end
+      return true 
+    end }))
+end
+
+local trigger_effectref = Back.trigger_effect
+function Back:trigger_effect(args)
+  if self.name == "Herbalist's Deck" and args.context == 'start_boss' then
+    if G.consumeables.config.card_limit > #G.consumeables.cards then
+      play_sound('timpani')
+      local card = create_card('Alchemical', G.consumeables, nil, nil, nil, nil, nil, 'see')
+      card:add_to_deck()
+      G.consumeables:emplace(card)
+    end
+  end
+
+  return trigger_effectref(self, args)
 end
 
 function CodexArcanum.INIT.CA_Overrides()

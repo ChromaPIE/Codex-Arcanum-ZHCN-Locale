@@ -206,14 +206,19 @@ function save_tags()
     meta.alerted = meta.alerted or {}
 
 	local TESTHELPER_unlocks = false and not _RELEASE_MODE
-	for k, v in pairs(G.P_TAGS) do
+    for k, v in pairs(G.P_TAGS) do
         v.key = k
         if not v.wip and not v.demo then
             if TESTHELPER_unlocks then
-                v.discovered = true;
+                v.discovered = true; v.alerted = true
             end                                                                   --REMOVE THIS
             if not v.discovered and meta.discovered[k] then
                 v.discovered = true
+            end
+            if v.discovered and meta.alerted[k] then
+                v.alerted = true
+            elseif v.discovered then
+                v.alerted = false
             end
         end
     end
