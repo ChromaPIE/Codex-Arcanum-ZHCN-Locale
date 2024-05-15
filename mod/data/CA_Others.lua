@@ -69,7 +69,7 @@ function CodexArcanum.INIT.CA_Others()
         name = "哲学家的牌组",
         text = {
         "开局时即拥有",
-        "{C:tarot,T:v_alchemical_merchant}炼金牌商人{}优惠券",
+        "{C:tarot,T:v_alchemical_merchant}炼金牌商人{}奖券",
         "和一张{C:tarot,T:c_seeker}求索者"
         },
     }
@@ -84,7 +84,7 @@ function CodexArcanum.INIT.CA_Others()
         name = "草药医生的牌组",
         text = {
         "开局时即拥有",
-        "{C:tarot,T:v_mortar_and_pestle}杵和臼{}优惠券",
+        "{C:tarot,T:v_mortar_and_pestle}杵和臼{}奖券",
         "每个Boss盲注开局时",
         "获得一张{C:alchemical}炼金牌"
         },

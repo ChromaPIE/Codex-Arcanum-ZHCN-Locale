@@ -589,8 +589,8 @@ function CodexArcanum.INIT.CA_Alchemicals()
     local alchemy_oil_def = {
         name = "油",
         text = {
-            "移除手中所有",
-            "卡牌的{C:attention}削弱{}效果"
+            "使手中所有的",
+            "{C:attention}失效{}卡牌复原"
         }
     }
 
@@ -654,8 +654,8 @@ function CodexArcanum.INIT.CA_Alchemicals()
         text = {
             "在本盲注内",
             "出牌和弃牌次数各{C:attention}+2",
-            "并削弱最左边一张",
-            "未被削弱的小丑牌"
+            "并使最左边一张",
+            "未失效的小丑牌失效"
         }
     }
 
