@@ -16,7 +16,7 @@ G.localization.misc.dictionary["p_plus_alchemical"] = "+1炼金"
 G.localization.misc.dictionary["p_alchemy_plus_card"] = "+2卡牌"
 G.localization.misc.dictionary["p_alchemy_plus_money"] = "+5资金"
 G.localization.misc.dictionary["p_alchemy_reduce_blind"] = "削减盲注"
-G.localization.misc.dictionary["b_stat_alchemicals"] = "Alchemicals"
+G.localization.misc.dictionary["b_stat_alchemicals"] = "炼金牌"
 
 
 

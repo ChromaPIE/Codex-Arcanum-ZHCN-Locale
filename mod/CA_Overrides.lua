@@ -252,12 +252,12 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
       elseif _c.name == 'Silver' then info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
       elseif _c.name == 'Stone' then info_queue[#info_queue+1] = G.P_CENTERS.m_stone
       elseif _c.name == 'Cobalt' then 
-        local loc_text = "Not chosen"
+        local loc_text = "未选定"
         if G.hand then
           local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
           loc_text = localize(text, 'poker_hands')
           if loc_text == "ERROR" then
-            loc_text = "Not chosen"
+            loc_text = "未选定"
           end
         end
         loc_vars = {loc_text}
