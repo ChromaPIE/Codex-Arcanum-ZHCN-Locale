@@ -134,7 +134,7 @@ function CodexArcanum.INIT.CA_Others()
         text = {
             "生成最多{C:attention}#1#张",
             "随机{C:alchemical}炼金牌{}",
-            "{C:inactive}（必须有空间）"
+            "{C:inactive}（必须有空位）"
         }
     }
 
