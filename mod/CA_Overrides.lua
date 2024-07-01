@@ -190,7 +190,7 @@ end
 
 local generate_card_uiref = generate_card_ui
 function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, hide_desc, main_start, main_end)
-  if _c.set == "Alchemical" or (_c.set == 'Booster' and _c.name:find("Alchemy")) or _c.name == 'Shock Humor' then
+  if _c.set == "Alchemical" or (_c.set == 'Booster' and (_c.name and _c.name:find("Alchemy"))) or _c.name == 'Shock Humor' then
     local first_pass = nil
     if not full_UI_table then 
         first_pass = true
@@ -902,7 +902,7 @@ function Game:update(dt)
   end
 
 
-  if G.GAME and G.GAME.blind and G.GAME.chips - G.GAME.blind.chips >= 0 then
+  if G.GAME and G.GAME.blind and Bigi(G.GAME.chips) - Bigi(G.GAME.blind.chips) >= Bigi(0) then
     if G.STATE == G.STATES.SELECTING_HAND then
       G.STATE = G.STATES.HAND_PLAYED
       G.STATE_COMPLETE = true
@@ -925,7 +925,7 @@ function Game:init_item_prototypes()
   G.P_CENTER_POOLS.Alchemical = {}
   G.localization.descriptions.Alchemical = {}
 
-  for _, booster in pairs(SMODS.Boosters) do
+  for _, booster in pairs(SMODS.CABoosters) do
     booster:register()
   end
 
@@ -933,7 +933,7 @@ function Game:init_item_prototypes()
     alchemical:register()
   end
 
-  for _, tag in pairs(SMODS.Tags) do
+  for _, tag in pairs(SMODS.CATags) do
     tag:register()
   end
   SMODS.LOAD_LOC()

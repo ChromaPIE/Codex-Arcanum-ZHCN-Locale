@@ -2,8 +2,8 @@
 -- TAGS API
 ------------------------------------
 
-SMODS.Tags = {}
-SMODS.Tag = {
+SMODS.CATags = {}
+SMODS.CATag = {
 	name = "",
 	slug = "",
 	config = {},
@@ -13,7 +13,7 @@ SMODS.Tag = {
 	min_ante = nil
 }
 
-function SMODS.Tag:new(name, slug, config, pos, loc_txt, min_ante, discovered, atlas)
+function SMODS.CATag:new(name, slug, config, pos, loc_txt, min_ante, discovered, atlas)
 	o = {}
 	setmetatable(o, self)
 	self.__index = self
@@ -34,8 +34,8 @@ function SMODS.Tag:new(name, slug, config, pos, loc_txt, min_ante, discovered, a
 	return o
 end
 
-function SMODS.Tag:register()
-	SMODS.Tags[self.slug] = self
+function SMODS.CATag:register()
+	SMODS.CATags[self.slug] = self
 	local minId = table_length(G.P_CENTER_POOLS['Tag']) + 1
 	local id = 0
 	local i = 0
@@ -189,7 +189,7 @@ function Tag:apply_to_run(_context)
 	local ret_val = apply_to_runref(self, _context)
 	if not self.triggered and self.config.type == _context.type then
 		local key = self.key
-        local tag_obj = SMODS.Tags[key]
+        local tag_obj = SMODS.CATags[key]
         if tag_obj and tag_obj.apply and type(tag_obj.apply) == "function" then
             local o = tag_obj.apply(self, _context)
             if o then return o end

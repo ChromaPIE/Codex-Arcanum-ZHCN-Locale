@@ -439,9 +439,9 @@ function CodexArcanum.INIT.CA_Alchemicals()
         G.deck.config.borax = G.deck.config.borax or {}
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             local suit_to_card_couner = {}
-            for _, v in pairs(SMODS.Card.SUITS) do
+            for _, v in pairs(SMODS.Suits) do
                 if not v.disabled then
-                    suit_to_card_couner[v.name] = 0
+                    suit_to_card_couner[v.key] = 0
                 end
             end
 
