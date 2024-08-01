@@ -11,7 +11,7 @@ CodexArcanum.Alchemical = {
     pos = {},
     loc_txt = {},
 	unlocked = true,
-    discovered = false, 
+    discovered = true, 
     consumeable = true,
 	unlock_condition = {}
 }

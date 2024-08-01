@@ -21,19 +21,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
             "仅可在盲注内使用"
         }
     }
-    
+
 
     local alchemy_ignis_def = {
         name = "火",
         text = {
             "在本盲注内",
-            "弃牌次数{C:attention}+1{}"
+            "弃牌次数{C:attention}+#1#"
         }
     }
 
     local alchemy_ignis = CodexArcanum.Alchemical:new("Ignis", "ignis", {extra = 1}, { x = 0, y = 0 }, alchemy_ignis_def, 3)
     alchemy_ignis:register()
-        
+
     function CodexArcanum.Alchemicals.c_alchemy_ignis.can_use(card)
         return true
     end
@@ -49,13 +49,13 @@ function CodexArcanum.INIT.CA_Alchemicals()
         name = "水",
         text = {
             "在本盲注内",
-            "出牌次数{C:attention}+1"
+            "出牌次数{C:attention}+#1#"
         }
     }
 
     local alchemy_aqua = CodexArcanum.Alchemical:new("Aqua", "aqua", {extra = 1}, { x = 1, y = 0 }, alchemy_aqua_def, 3)
     alchemy_aqua:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_aqua.can_use(card)
         return true
     end
@@ -70,27 +70,27 @@ function CodexArcanum.INIT.CA_Alchemicals()
     local alchemy_terra_def = {
         name = "地",
         text = {
-            "削减盲注的最低分数要求至{C:attention}85%"
+            "削减盲注的最低得分要求至{C:attention}#1#%"
         }
     }
 
-    local alchemy_terra = CodexArcanum.Alchemical:new("Terra", "terra", {}, { x = 2, y = 0 }, alchemy_terra_def, 3)
+    local alchemy_terra = CodexArcanum.Alchemical:new("Terra", "terra", {extra = 85}, { x = 2, y = 0 }, alchemy_terra_def, 3)
     alchemy_terra:register()
-                          
+
     function CodexArcanum.Alchemicals.c_alchemy_terra.can_use(card)
         return true
     end
 
     function CodexArcanum.Alchemicals.c_alchemy_terra.use(card, area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-            G.GAME.blind.chips = math.floor(G.GAME.blind.chips * 0.85)
+            G.GAME.blind.chips = math.floor(G.GAME.blind.chips * card.ability.extra / 100)
             G.GAME.blind.chip_text = number_format(G.GAME.blind.chips)
-            
+
             local chips_UI = G.hand_text_area.blind_chips
             G.FUNCS.blind_chip_UI_scale(G.hand_text_area.blind_chips)
             G.HUD_blind:recalculate() 
             chips_UI:juice_up()
-            
+
             if not silent then play_sound('chips2') end
         return true end }))
     end
@@ -99,13 +99,13 @@ function CodexArcanum.INIT.CA_Alchemicals()
     local alchemy_aero_def = {
         name = "气",
         text = {
-            "抽{C:attention}4{}张牌"
+            "抽{C:attention}#1#{}张牌"
         }
     }
 
     local alchemy_aero = CodexArcanum.Alchemical:new("Aero", "aero", {extra = 4}, { x = 3, y = 0 }, alchemy_aero_def, 3)
     alchemy_aero:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_aero.can_use(card)
         return true
     end
@@ -116,18 +116,18 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_quicksilver_def = {
         name = "汞",
         text = {
             "本盲注内",
-            "{C:attention}+2{}手牌上限"
+            "手牌上限{C:attention}+#1#"
         }
     }
 
     local alchemy_quicksilver = CodexArcanum.Alchemical:new("Quicksilver", "quicksilver", {extra = 2}, { x = 4, y = 0 }, alchemy_quicksilver_def, 3)
     alchemy_quicksilver:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_quicksilver.can_use(card)
         return true
     end
@@ -144,46 +144,48 @@ function CodexArcanum.INIT.CA_Alchemicals()
     local alchemy_salt_def = {
         name = "盐",
         text = {
-            "获得{C:attention}1{}个标签"
+            "获得{C:attention}#1#{}个标签"
         }
     }
 
-    local alchemy_salt = CodexArcanum.Alchemical:new("Salt", "salt", {extra = 2}, { x = 5, y = 0 }, alchemy_salt_def, 3)
+    local alchemy_salt = CodexArcanum.Alchemical:new("Salt", "salt", {extra = 1}, { x = 5, y = 0 }, alchemy_salt_def, 3)
     alchemy_salt:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_salt.can_use(card)
         return true
     end
 
     function CodexArcanum.Alchemicals.c_alchemy_salt.use(card, area, copier)
-        G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-            if G.FORCE_TAG then return G.FORCE_TAG end
-            local _pool, _pool_key = get_current_pool('Tag', nil, nil, nil)
-            local _tag_name = pseudorandom_element(_pool, pseudoseed(_pool_key))
-            local it = 1
-            while _tag_name == 'UNAVAILABLE' or _tag_name == "tag_double" or _tag_name == "tag_orbital" do
-                it = it + 1
-                _tag_name = pseudorandom_element(_pool, pseudoseed(_pool_key..'_resample'..it))
-            end
-    
-            G.GAME.round_resets.blind_tags = G.GAME.round_resets.blind_tags or {}
-            local _tag = Tag(_tag_name, nil, G.GAME.blind)
-            add_tag(_tag)
-        return true end }))
+        for i = 1, card.ability.extra do
+            G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
+                if G.FORCE_TAG then return G.FORCE_TAG end
+                local _pool, _pool_key = get_current_pool('Tag', nil, nil, nil)
+                local _tag_name = pseudorandom_element(_pool, pseudoseed(_pool_key))
+                local it = 1
+                while _tag_name == 'UNAVAILABLE' or _tag_name == "tag_double" or _tag_name == "tag_orbital" do
+                    it = it + 1
+                    _tag_name = pseudorandom_element(_pool, pseudoseed(_pool_key..'_resample'..it))
+                end
+
+                G.GAME.round_resets.blind_tags = G.GAME.round_resets.blind_tags or {}
+                local _tag = Tag(_tag_name, nil, G.GAME.blind)
+                add_tag(_tag)
+            return true end }))
+        end
     end
-    
+
 
     local alchemy_sulfur_def = {
         name = "硫",
         text = {
             "出牌次数减为{C:attention}1",
-            "减去的每次出牌给予{C:attention}$4{}"
+            "减去的每次出牌给予{C:attention}$#1#"
         }
     }
 
-    local alchemy_sulfur = CodexArcanum.Alchemical:new("Sulfur", "sulfur", {extra = 10}, { x = 0, y = 1 }, alchemy_sulfur_def, 3)
+    local alchemy_sulfur = CodexArcanum.Alchemical:new("Sulfur", "sulfur", {extra = 4}, { x = 0, y = 1 }, alchemy_sulfur_def, 3)
     alchemy_sulfur:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_sulfur.can_use(card)
         return true
     end
@@ -192,11 +194,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             local prev_hands = G.GAME.current_round.hands_left
             ease_hands_played(-(prev_hands - 1))
-            ease_dollars(4 * (prev_hands - 1), true)
+            ease_dollars(card.ability.extra * (prev_hands - 1), true)
         return true end }))
     end
 
-    
+
     local alchemy_phosphorus_def = {
         name = "磷",
         text = {
@@ -207,7 +209,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     local alchemy_phosphorus = CodexArcanum.Alchemical:new("Phosphorus", "phosphorus", {extra = 4}, { x = 1, y = 1 }, alchemy_phosphorus_def, 3)
     alchemy_phosphorus:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_phosphorus.can_use(card)
         return true
     end
@@ -218,19 +220,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_bismuth_def = {
         name = "铋",
         text = {
             "在本盲注内",
-            "将至多{C:attention}2{}张选定卡牌",
+            "将至多{C:attention}#1#{}张选定卡牌",
             "临时转换为{C:attention}多彩"
         }
     }
 
     local alchemy_bismuth = CodexArcanum.Alchemical:new("Bismuth", "bismuth", {extra = 2}, { x = 2, y = 1 }, alchemy_bismuth_def, 3)
     alchemy_bismuth:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_bismuth.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -245,19 +247,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_cobalt_def = {
         name = "钴",
         text = {
         "将当前选定的{C:legendary,E:1}牌型",
-        "提升{C:attention}2{}个等级", 
+        "提升{C:attention}#2#{}个等级",
         "{C:inactive}（当前牌型：#1#）"
         }
     }
 
-    local alchemy_cobalt = CodexArcanum.Alchemical:new("Cobalt", "cobalt", {extra = 1}, { x = 3, y = 1 }, alchemy_cobalt_def, 3)
+    local alchemy_cobalt = CodexArcanum.Alchemical:new("Cobalt", "cobalt", {extra = 2}, { x = 3, y = 1 }, alchemy_cobalt_def, 3)
     alchemy_cobalt:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_cobalt.can_use(card)
         if #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -266,12 +268,12 @@ function CodexArcanum.INIT.CA_Alchemicals()
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
             update_hand_text({sound = 'button', volume = 0.7, pitch = 0.8, delay = 0.3}, {handname=localize(text, 'poker_hands'),chips = G.GAME.hands[text].chips, mult = G.GAME.hands[text].mult, level=G.GAME.hands[text].level})
-            level_up_hand(self, text, nil, 2)
+            level_up_hand(self, text, nil, card.ability.extra)
             update_hand_text({sound = 'button', volume = 0.7, pitch = 1.1, delay = 0}, {mult = 0, chips = 0, handname = '', level = ''})
         return true end }))
     end
 
-    
+
     local alchemy_arsenic_def = {
         name = "砷",
         text = {
@@ -281,7 +283,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     local alchemy_arsenic = CodexArcanum.Alchemical:new("Arsenic", "arsenic", {}, { x = 4, y = 1 }, alchemy_arsenic_def, 3)
     alchemy_arsenic:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_arsenic.can_use(card)
         return true
     end
@@ -297,7 +299,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_antimony_def = {
         name = "锑",
         text = {
@@ -309,7 +311,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     local alchemy_antimony = CodexArcanum.Alchemical:new("Antimony", "antimony", {}, { x = 5, y = 1 }, alchemy_antimony_def, 3)
     alchemy_antimony:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_antimony.can_use(card)
         return true
     end
@@ -330,18 +332,18 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_soap_def = {
         name = "皂",
         text = {
-            "将至多{C:attention}3{}张选定的卡牌",
+            "将至多{C:attention}#1#{}张选定的卡牌",
             "替换为牌组中的牌"
         }
     }
 
     local alchemy_soap = CodexArcanum.Alchemical:new("Soap", "soap", {extra = 3}, { x = 0, y = 2 }, alchemy_soap_def, 3)
     alchemy_soap:register()
-                    
+
     function CodexArcanum.Alchemicals.c_alchemy_soap.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -355,19 +357,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_manganese_def = {
         name = "锰",
         text = {
             "在本盲注内",
-            "将至多{C:attention}4{}张选定卡牌",
+            "将至多{C:attention}#1#{}张选定卡牌",
             "临时增强为{C:attention}钢铁牌"
         }
     }
 
     local alchemy_manganese = CodexArcanum.Alchemical:new("Manganese", "manganese", {extra = 4}, { x = 1, y = 2 }, alchemy_manganese_def, 3)
     alchemy_manganese:register()
-                        
+
     function CodexArcanum.Alchemicals.c_alchemy_manganese.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -384,27 +386,27 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_wax_def = {
         name = "蜡",
         text = {
             "在本盲注内",
             "为选定卡牌生成",
-            "{C:attention}2{}张临时复制"
+            "{C:attention}#1#{}张临时复制"
         }
     }
 
-    local alchemy_wax = CodexArcanum.Alchemical:new("Wax", "wax", {extra = 1}, { x = 2, y = 2 }, alchemy_wax_def, 3)
+    local alchemy_wax = CodexArcanum.Alchemical:new("Wax", "wax", {extra = 2}, { x = 2, y = 2 }, alchemy_wax_def, 3)
     alchemy_wax:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_wax.can_use(card)
-        if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
+        if #G.hand.highlighted == 1 then return true else return false end
     end
 
     function CodexArcanum.Alchemicals.c_alchemy_wax.use(card, area, copier)
         G.deck.config.wax = G.deck.config.wax or {}
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-            for i = 1, 2 do
+            for i = 1, card.ability.extra do
                 G.playing_card = (G.playing_card and G.playing_card + 1) or 1
                 local _card = copy_card(G.hand.highlighted[1], nil, nil, G.playing_card)
                 _card:add_to_deck()
@@ -418,19 +420,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-    
+
     local alchemy_borax_def = {
         name = "硼",
         text = {
             "在本盲注内",
-            "将至多{C:attention}4{}张选定卡牌",
+            "将至多{C:attention}#1#{}张选定卡牌",
             "临时转换为数量最多的{C:attention}花色"
         }
     }
 
     local alchemy_borax = CodexArcanum.Alchemical:new("Borax", "borax", {extra = 4}, { x = 3, y = 2 }, alchemy_borax_def, 3)
     alchemy_borax:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_borax.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -468,19 +470,19 @@ function CodexArcanum.INIT.CA_Alchemicals()
         return true end }))
     end
 
-            
+
     local alchemy_glass_def = {
         name = "玻",
         text = {
             "在本盲注内",
-            "将至多{C:attention}4{}张选定卡牌",
+            "将至多{C:attention}#1#{}张选定卡牌",
             "临时增强为{C:attention}玻璃牌"
         }
     }
 
     local alchemy_glass = CodexArcanum.Alchemical:new("Glass", "glass", {extra = 4}, { x = 4, y = 2 }, alchemy_glass_def, 3)
     alchemy_glass:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_glass.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -501,22 +503,22 @@ function CodexArcanum.INIT.CA_Alchemicals()
     local alchemy_magnet_def = {
         name = "磁",
         text = {
-            "抽{C:attention}2{}张与选定卡牌",
+            "抽{C:attention}#1#{}张与选定卡牌",
             "点数相同的牌"
         }
     }
 
-    local alchemy_magnet = CodexArcanum.Alchemical:new("Magnet", "magnet", {extra = 1}, { x = 5, y = 2 }, alchemy_magnet_def, 3)
+    local alchemy_magnet = CodexArcanum.Alchemical:new("Magnet", "magnet", {extra = 2}, { x = 5, y = 2 }, alchemy_magnet_def, 3)
     alchemy_magnet:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_magnet.can_use(card)
-        if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
+        if #G.hand.highlighted == 1 then return true else return false end
     end
 
     function CodexArcanum.Alchemicals.c_alchemy_magnet.use(card, area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             local cur_rank = G.hand.highlighted[1].base.id
-            local count = 2
+            local count = card.ability.extra
             for _, v in pairs(G.deck.cards) do
                 if v.base.id == cur_rank and count > 0 then
                     delay(0.05)
@@ -532,18 +534,18 @@ function CodexArcanum.INIT.CA_Alchemicals()
         name = "金",
         text = {
             "在本盲注内",
-            "将至多{C:attention}4{}张选定卡牌",
+            "将至多{C:attention}#1#{}张选定卡牌",
             "临时增强为{C:attention}黄金牌"
         }
     }
 
     local alchemy_gold = CodexArcanum.Alchemical:new("Gold", "gold", {extra = 4}, { x = 0, y = 3 }, alchemy_gold_def, 3)
     alchemy_gold:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_gold.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
-    
+
     function CodexArcanum.Alchemicals.c_alchemy_gold.use(card, area, copier)
         G.deck.config.gold = G.deck.config.gold or {}
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
@@ -561,18 +563,18 @@ function CodexArcanum.INIT.CA_Alchemicals()
         name = "银",
         text = {
             "在本盲注内",
-            "将至多{C:attention}4{}张选定卡牌",
+            "将至多{C:attention}#1#{}张选定卡牌",
             "临时增强为{C:attention}幸运牌"
         }
     }
 
     local alchemy_silver = CodexArcanum.Alchemical:new("Silver", "silver", {extra = 4}, { x = 1, y = 3 }, alchemy_silver_def, 3)
     alchemy_silver:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_silver.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
-        
+
     function CodexArcanum.Alchemicals.c_alchemy_silver.use(card, area, copier)
         G.deck.config.silver = G.deck.config.silver or {}
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
@@ -596,11 +598,11 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     local alchemy_oil = CodexArcanum.Alchemical:new("Oil", "oil", {}, { x = 2, y = 3 }, alchemy_oil_def, 3)
     alchemy_oil:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_oil.can_use(card)
         return true 
     end
-        
+
     function CodexArcanum.Alchemicals.c_alchemy_oil.use(card, area, copier)
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
             for k, v in ipairs(G.hand.cards) do
@@ -628,7 +630,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     local alchemy_acid = CodexArcanum.Alchemical:new("Acid", "acid", {extra = 1}, { x = 3, y = 3 }, alchemy_acid_def, 3)
     alchemy_acid:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_acid.can_use(card)
         if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
     end
@@ -653,7 +655,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
         name = "磺",
         text = {
             "在本盲注内",
-            "出牌和弃牌次数各{C:attention}+2",
+            "出牌和弃牌次数各{C:attention}+#1#",
             "并使最左边一张",
             "未失效的小丑牌失效"
         }
@@ -661,7 +663,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
     local alchemy_brimstone = CodexArcanum.Alchemical:new("Brimstone", "brimstone", {extra = 2}, { x = 4, y = 3 }, alchemy_brimstone_def, 3)
     alchemy_brimstone:register()
-                
+
     function CodexArcanum.Alchemicals.c_alchemy_brimstone.can_use(card)
         return true
     end
@@ -687,7 +689,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
         text = {
             "在本盲注内",
             "将选定卡牌的{C:attention}增强{}、{C:attention}蜡封{}和{C:attention}版本",
-            "临时复制至{C:attention}3{}张无增强的卡牌"
+            "临时复制至{C:attention}#1#{}张无增强的卡牌"
         },
         unlock = {
             "在同一赛局内",
@@ -696,17 +698,17 @@ function CodexArcanum.INIT.CA_Alchemicals()
     }
 
 
-    local alchemy_uranium = CodexArcanum.Alchemical:new("Uranium", "uranium", {extra = 1}, { x = 5, y = 3 }, alchemy_uranium_def, 3, false, false, {type = 'used_alchemical', extra = 5})
+    local alchemy_uranium = CodexArcanum.Alchemical:new("Uranium", "uranium", {extra = 3}, { x = 5, y = 3 }, alchemy_uranium_def, 3, false, false, {type = 'used_alchemical', extra = 5})
     alchemy_uranium:register()
-            
+
     function CodexArcanum.Alchemicals.c_alchemy_uranium.can_use(card)
-        if #G.hand.highlighted <= card.ability.extra and #G.hand.highlighted >= 1 then return true else return false end
+        if #G.hand.highlighted == 1 then return true else return false end
     end
 
     function CodexArcanum.Alchemicals.c_alchemy_uranium.use(card, area, copier)
         G.deck.config.uranium = G.deck.config.uranium or {}
         G.E_MANAGER:add_event(Event({trigger = 'after',delay = 0.1,func = function()
-            for i = 1, 3 do
+            for i = 1, card.ability.extra do
                 local eligible_cards = {}
                 for k, v in ipairs(G.hand.cards) do
                     if v.config.center == G.P_CENTERS.c_base and not (v.edition) and not (v.seal) then
@@ -725,7 +727,7 @@ function CodexArcanum.INIT.CA_Alchemicals()
 
                     table.insert(G.deck.config.uranium, conv_card.unique_val)
                 end
-                
+
             end
         return true end }))
     end

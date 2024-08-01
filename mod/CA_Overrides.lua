@@ -227,7 +227,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
                 full_UI_table.name = full_UI_table.name[1]
             end
         elseif card_type == 'Booster' then
-            
+
         else
             full_UI_table.name = localize{type = 'name', set = _c.set, key = _c.key, nodes = full_UI_table.name}
         end
@@ -235,8 +235,14 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
     end 
 
     local loc_vars = {}
-    if main_start then 
-        desc_nodes[#desc_nodes+1] = main_start 
+    local use_extra = {'Ignis', 'Aqua', 'Terra', 'Aero', 'Quicksilver', 'Salt', 'Sulfur', 'Soap', 'Wax', 'Borax', 'Magnet', 'Brimstone', 'Uranium'}
+    local use_extra_r = {}
+    for _, k in ipairs(use_extra) do
+      use_extra_r[k] = {}
+    end
+    local xv = _c.config.extra
+    if main_start then
+        desc_nodes[#desc_nodes+1] = main_start
     end
 
     if card_type == 'Locked' then
@@ -245,13 +251,23 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
       localize{type = 'other', key = 'undiscovered_'..(string.lower(_c.set)), set = _c.set, nodes = desc_nodes}
     elseif _c.set == "Alchemical" then
       info_queue[#info_queue+1] = {key = "alchemical_card", set = "Other"}
-      if _c.name == 'Bismuth' then info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
-      elseif _c.name == 'Manganese' then info_queue[#info_queue+1] = G.P_CENTERS.m_steel
-      elseif _c.name == 'Glass' then info_queue[#info_queue+1] = G.P_CENTERS.m_glass
-      elseif _c.name == 'Gold' then info_queue[#info_queue+1] = G.P_CENTERS.m_gold
-      elseif _c.name == 'Silver' then info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
+      if _c.name == 'Bismuth' then
+        info_queue[#info_queue+1] = G.P_CENTERS.e_polychrome
+        loc_vars = {xv}
+      elseif _c.name == 'Manganese' then
+        info_queue[#info_queue+1] = G.P_CENTERS.m_steel
+        loc_vars = {xv}
+      elseif _c.name == 'Glass' then
+        info_queue[#info_queue+1] = G.P_CENTERS.m_glass
+        loc_vars = {xv}
+      elseif _c.name == 'Gold' then
+        info_queue[#info_queue+1] = G.P_CENTERS.m_gold
+        loc_vars = {xv}
+      elseif _c.name == 'Silver' then
+        info_queue[#info_queue+1] = G.P_CENTERS.m_lucky
+        loc_vars = {xv}
       elseif _c.name == 'Stone' then info_queue[#info_queue+1] = G.P_CENTERS.m_stone
-      elseif _c.name == 'Cobalt' then 
+      elseif _c.name == 'Cobalt' then
         local loc_text = "未选定"
         if G.hand then
           local text,disp_text = G.FUNCS.get_poker_hand_info(G.hand.highlighted)
@@ -260,10 +276,11 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
             loc_text = "未选定"
           end
         end
-        loc_vars = {loc_text}
+        loc_vars = {loc_text, xv}
       elseif _c.name == 'Antimony' then 
-        info_queue[#info_queue+1] = G.P_CENTERS.e_negative 
-        info_queue[#info_queue+1] = {key = 'eternal', set = 'Other'} 
+        info_queue[#info_queue+1] = G.P_CENTERS.e_negative
+        info_queue[#info_queue+1] = {key = 'eternal', set = 'Other'}
+      elseif use_extra_r[_c.name] then loc_vars = {xv}
       end
       localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = loc_vars}
     elseif _c.set == 'Booster' and _c.name:find("Alchemy") then 
@@ -281,7 +298,7 @@ function generate_card_ui(_c, full_UI_table, specific_vars, card_type, badges, h
         info_queue[#info_queue+1] = G.P_CENTERS.m_stone
       end
       localize{type = 'descriptions', key = _c.key, set = _c.set, nodes = desc_nodes, vars = specific_vars or {}}
-      
+
     end
 
     if main_end then 
